@@ -18,44 +18,48 @@ import java.util.Map;
 @ApplicationScoped
 public class ConversaoService{
 
+    @Inject
     private CotacaoService cotacaoService;
 
-    private final ObjectMapper mapper;
+    private final ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
 
-    @Inject
-    public ConversaoService(CotacaoService cotacaoService) throws IOException, InterruptedException {
-
-        this.cotacaoService = cotacaoService;
-        this.mapper = new ObjectMapper();
-        this.mapper.registerModule(new JavaTimeModule());
-    }
-
-  public BigDecimal buscarTaxa(Moeda moedaOrigem, Moeda moedaDestino) throws IOException, InterruptedException {
+    public BigDecimal buscarTaxa(Moeda moedaOrigem, Moeda moedaDestino)
+            throws IOException, InterruptedException {
 
         String json = cotacaoService.buscarCotacaoConversao(moedaOrigem, moedaDestino);
 
         RespostaCotacao respostaCotacao = mapper.readValue(json, RespostaCotacao.class);
 
-        return respostaCotacao.getRates().get(moedaDestino.getCodigo());
-  }
+       BigDecimal taxa = respostaCotacao.getRates().get(moedaDestino.getCodigo());
+
+       if(taxa == null){
+
+           throw new IllegalArgumentException("Desculpe, não encontramos a cotação da moeda destino!");
+       }
+
+       return taxa;
+   }
+
+   public Boolean moedaIsEquals(Moeda moedaOrigem, Moeda moedaDestino){
+
+        if(moedaOrigem != null && moedaDestino != null){
+
+            return moedaOrigem.getCodigo().equals(moedaDestino.getCodigo());
+        }
+
+        return false;
+   }
 
 
   public BigDecimal conversao(Moeda moedaOrigem, Moeda moedaDestino, BigDecimal valor) throws IOException, InterruptedException {
 
         BigDecimal taxa = buscarTaxa(moedaOrigem, moedaDestino);
 
-        return valor.multiply(taxa).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal converter = valor.multiply(taxa).setScale(2, RoundingMode.HALF_UP);
+
+        return converter;
 
   }
 
-   public void testar() throws IOException, InterruptedException {
-
-       Moeda usd = new Moeda("Dólar americano", "USD", 1L, PaisEnum.ESTADOS_UNIDOS);
-       Moeda eur = new Moeda("Euro", "EUR", 2L, PaisEnum.UNIAO_EUROPEIA);
-
-
-       BigDecimal taxa = buscarTaxa(usd, eur);
-
-       System.out.println("Taxa USD → EUR: " + taxa);
-   }
 }

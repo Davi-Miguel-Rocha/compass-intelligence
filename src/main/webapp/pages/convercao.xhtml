@@ -1,92 +1,166 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:f="jakarta.faces.core"
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <style>
-
-        .cards-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 25px;
-        margin-top: 45px;
-        padding: 20px;
-        border-radius: 15px;
-
-    }
-
-            body {
-        margin: 0;
-
-        background-image:
-            linear-gradient(
-                rgba(10, 20, 40, 0.75),
-                rgba(10, 20, 40, 0.75)
-            ),
-            url("#{resource['images/cidad.jpg']}");
-
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-    }
-    </style>
+    <title>Compass Intelligence - Conversão</title>
 
     <h:outputStylesheet library="css" name="style.css"/>
 
+    <style>
+        body {
+            margin: 0;
+            background-image:
+                    linear-gradient(
+                            rgba(10, 20, 40, 0.75),
+                            rgba(10, 20, 40, 0.75)
+                    ),
+                    url("#{resource['images/cidad.jpg']}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
 
+        .conversion-container {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .conversion-panel {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .conversion-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .conversion-fields .ui-inputnumber,
+        .conversion-fields .ui-selectonemenu {
+            width: 100%;
+        }
+
+        .conversion-label {
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .conversion-button {
+            width: 100%;
+            margin-top: 18px;
+        }
+
+        .result-field {
+            margin-top: 8px;
+        }
+    </style>
 </h:head>
 
 <h:body>
 
     <p:menubar>
-        <p:menuitem value="Início" icon="pi pi-home" outcome="inicio"/>
-        <p:menuitem value="Monitoramento" icon="pi pi-chart-bar" outcome="/pages/monitoramento"/>
-        <p:menuitem value="Conversão" icon="pi pi-wallet" outcome="/pages/convercao"/>
-        <p:menuitem value="Turismo" icon="pi pi-map-marker" outcome="/pages/turismo"/>
+        <p:menuitem value="Início"
+                    icon="pi pi-home"
+                    outcome="/pages/inicio"/>
+
+        <p:menuitem value="Monitoramento"
+                    icon="pi pi-chart-bar"
+                    outcome="/pages/monitoramento"/>
+
+        <p:menuitem value="Conversão"
+                    icon="pi pi-wallet"
+                    outcome="/pages/convercao"/>
+
+        <p:menuitem value="Turismo"
+                    icon="pi pi-map-marker"
+                    outcome="/pages/turismo"/>
     </p:menubar>
 
+    <h:form id="formConversao">
 
-    <p:card class="conversion-panel">
+        <p:outputPanel styleClass="conversion-container">
 
-        <f:facet name="header">
-            <h:outputText value="Conversão"/>
-        </f:facet>
+            <p:card class="conversion-panel">
 
-        <p:inputNumber
-                value="#{conversaoBean.valor}"
-                placeholder="Digite o valor"/>
+                <f:facet name="title">
+                    <h:outputText value="Conversor de moedas"/>
+                </f:facet>
 
-        <p:selectOneMenu
-                value="#{conversaoBean.moedaOrigem}">
+                <p:messages id="mensagens"
+                            showDetail="true"
+                            closable="true"/>
 
-            <f:selectItems
-                    value="#{conversaoBean.moedas}"
-                    var="moeda"
-                    itemLabel="#{moeda.codigo}"
-                    itemValue="#{moeda}"/>
+                <p:outputPanel styleClass="conversion-fields">
 
-        </p:selectOneMenu>
+                    <p:outputLabel for="valor"
+                                   value="Valor para converter"
+                                   styleClass="conversion-label"/>
 
-        <p:selectOneMenu
-                value="#{conversaoBean.moedaDestino}">
+                    <p:inputNumber id="valor"
+                                   value="#{conversaoBean.valor}"
+                                   placeholder="Ex.: 100,00"
+                                   decimalSeparator=","
+                                   thousandSeparator="."/>
 
-            <f:selectItems
-                    value="#{conversaoBean.moedas}"
-                    var="moeda"
-                    itemLabel="#{moeda.codigo}"
-                    itemValue="#{moeda}"/>
+                    <p:outputLabel for="origem"
+                                   value="Moeda de origem"
+                                   styleClass="conversion-label"/>
 
-        </p:selectOneMenu>
+                    <p:selectOneMenu id="origem"
+                                     value="#{conversaoBean.moedaOrigem}">
+                        <f:converter converterId="moedaConverter"/>
 
-    </p:card>
+                        <f:selectItems value="#{conversaoBean.moedas}"
+                                       var="moeda"
+                                       itemLabel="#{moeda.codigo}"
+                                       itemValue="#{moeda}"/>
+                    </p:selectOneMenu>
 
+                    <p:outputLabel for="destino"
+                                   value="Moeda de destino"
+                                   styleClass="conversion-label"/>
 
+                    <p:selectOneMenu id="destino"
+                                     value="#{conversaoBean.moedaDestino}">
+                        <f:converter converterId="moedaConverter"/>
+
+                        <f:selectItems value="#{conversaoBean.moedas}"
+                                       var="moeda"
+                                       itemLabel="#{moeda.codigo}"
+                                       itemValue="#{moeda}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="resultado"
+                                   value="Resultado da conversão"
+                                   styleClass="conversion-label"/>
+
+                    <p:inputNumber id="resultado"
+                                   value="#{conversaoBean.resultado}"
+                                   readonly="true"
+                                   decimalSeparator=","
+                                   thousandSeparator="."
+                                   styleClass="result-field"/>
+
+                    <p:commandButton value="Converter"
+                                     icon="pi pi-sync"
+                                     action="#{conversaoBean.converter}"
+                                     update="@form"
+                                     styleClass="conversion-button"/>
+
+                </p:outputPanel>
+
+            </p:card>
+
+        </p:outputPanel>
+
+    </h:form>
 
 </h:body>
-
 </html>
