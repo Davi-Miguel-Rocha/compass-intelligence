@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<style>
+
+    .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 45px;
+    padding: 20px;
+    border-radius: 15px;
+
+}
+
+        body {
+    margin: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(10, 20, 40, 0.75),
+            rgba(10, 20, 40, 0.75)
+        ),
+        url("#{resource['images/cidad.jpg']}");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+</style>
+
+    <h:outputStylesheet library="css" name="style.css"/>
+
+
+</h:head>
+
+<h:body>
+
+    <p:menubar>
+        <p:menuitem value="Início" icon="pi pi-home" outcome="inicio"/>
+        <p:menuitem value="Monitoramento" icon="pi pi-chart-bar" outcome="/pages/monitoramento"/>
+        <p:menuitem value="Conversão" icon="pi pi-dollar" outcome="/pages/convercao"/>
+        <p:menuitem value="Turismo" icon="pi pi-map-marker" outcome="/pages/turismo"/>
+    </p:menubar>
+
+    <p:panel styleClass="main-panel">
+
+        <h1 class="brand-title">
+            <i class="pi pi-compass"></i>
+
+            Compass Intelligence
+
+        </h1>
+
+        <h:outputText value="Sua visão do mercado cambial internacional."/>
+
+        <p>
+        <h:outputText styleClass="brand-description" value="Acompanhe moedas globais, converta valores
+        e visualize informações financeiras em
+        uma plataforma moderna."/>
+        </p>
+
+    </p:panel>
+
+
+    <div class="cards-container">
+    <p:card style="width: 400px; margin-top: 45px;">
+
+        <f:facet name="title">
+            <i class="pi pi-dollar"></i>
+            Acompanhe o valor das moedas em tempo real!
+
+        </f:facet>
+        <h:outputText value="Você pode monitorar o valor das moedas em tempo real e se planejar!!!"  style="font-size: 18px;"/>
+
+    </p:card>
+
+    <p:card   style="width: 400px; margin-top: 45px;">
+
+      <f:facet name="title">
+          <i class="pi pi-refresh"></i>
+          Conversão
+      </f:facet>
+
+        <h:outputText value="Converta valores entre Real, Dólar e Euro de forma rápida."/>
+
+
+    </p:card>
+
+
+    <p:card style="width: 400px; margin-top: 45px;">
+
+        <f:facet name="title">
+        <i class="pi pi-chart-bar"></i>
+            Histórico
+        </f:facet>
+
+        <h:outputText value="Veja o histórico das suas moedas e preveja tendências!"/>
+
+    </p:card>
+
+
+    <p:card style="width: 400px; margin-top: 45px;">
+
+        <f:facet name="title">
+            <i class="pi pi-map-marker"></i>
+            Turismo
+        </f:facet>
+
+        <h:outputText value="Conheça pontos turisticos dos páises para se planejar ainda melhor!"/>
+
+    </p:card>
+    </div>
+
+
+</h:body>
+
+</html>

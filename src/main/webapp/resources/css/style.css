@@ -1,0 +1,102 @@
+.main-panel {
+    width: 70%;
+
+    margin: 50px auto 0 auto;
+
+    text-align: center;
+
+    padding: 40px;
+}
+
+.brand-title {
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 48px;
+
+    font-weight: 700;
+
+    letter-spacing: -1px;
+
+}
+
+.brand-subtitle {
+
+    font-family: 'Inter', sans-serif;
+
+    font-size: 22px;
+
+    margin-top: 15px;
+
+}
+
+.brand-description {
+
+    font-family: 'Inter', sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    margin-top: 20px;
+
+}
+
+.monitoramento-container {
+
+         width:85%;
+         margin:40px auto 50px auto;
+         text-align:center;
+         gap: 25px;
+}
+.currency-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    gap:25px !important;
+}
+
+.currency-card {
+    width: 350px;
+    margin: 0 15px;
+}
+
+.cotacao-panel {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.15);
+    transition: .3s;
+}
+
+"""CSS dos headers de monitoramento"""
+
+.currency-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.currency-header img {
+    width: 50px !important;
+    height: 40px !important;
+    max-width: 400px !important;
+    max-height: 400px !important;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.currency-header span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.conversion-panel {
+    width: 70%;
+
+    margin: 50px auto 0 auto;
+
+    text-align: center;
+
+    padding: 40px;
+}

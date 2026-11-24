@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
+
+<h:head>
+
+
+    <h:outputStylesheet library="css" name="style.css"/>
+
+    <style>
+        body {
+                  position: relative;
+                  background: #0f172a;
+              }
+
+              body::before {
+                  content: "";
+
+                  position: fixed;
+                  inset: 0;
+
+                  pointer-events: none;
+
+                  z-index: 0;
+
+                  background-image:
+                      radial-gradient(
+                          circle,
+                          rgba(255,255,255,0.35) 1px,
+                          transparent 1px
+                      ),
+                      radial-gradient(
+                          circle,
+                          rgba(255,255,255,0.20) 1px,
+                          transparent 1px
+                      ),
+                      radial-gradient(
+                          circle,
+                          rgba(59,130,246,0.30) 1px,
+                          transparent 1px
+                      );
+
+                  background-size:
+                      140px 140px,
+                      200px 200px,
+                      280px 280px;
+
+                  background-position:
+                      0 0,
+                      40px 80px,
+                      100px 30px;
+
+                  animation: particlesMove 25s linear infinite;
+              }
+
+              body > * {
+                  position: relative;
+                  z-index: 1;
+              }
+
+              @keyframes particlesMove {
+
+                  from {
+                      background-position:
+                          0 0,
+                          40px 80px,
+                          100px 30px;
+                  }
+
+                  to {
+                      background-position:
+                          0 -140px,
+                          40px -200px,
+                          100px -280px;
+                  }
+
+              }
+
+    </style>
+
+</h:head>
+
+<h:body>
+
+    <p:menubar>
+        <p:menuitem value="Início" icon="pi pi-home" url="inicio.xhtml"/>
+        <p:menuitem value="Monitoramento" icon="pi pi-chart-bar" url="pages/monitoramento.xhtml"/>
+        <p:menuitem value="Conversão" icon="pi pi-wallet" url="pages/convercao.xhtml"/>
+        <p:menuitem value="Turismo" icon="pi pi-map-marker" url="pages/turismo.xhtml"/>
+    </p:menubar>
+
+
+
+    <div class="monitoramento-container">
+
+        <h1 class="brand-title">
+            <i class="pi pi-chart-line"></i>
+            Monitoramento
+        </h1>
+
+        <p class="brand-subtitle"> Bem-vindo(a) à tela de monitoramento, confira o valor das moedas internacionais em tempo real.</p>
+    </div>
+
+
+    <div class="currency-container">
+
+<ui:repeat value="#{monitoramentoBean.cotacoes}" var="cotacao">
+
+    <div class="currency-card">
+
+
+        <p:panel  style="width:350px;"  styleClass="cotacao-panel">
+
+            <f:facet name="header">
+
+            <div class="currency-header">
+
+                <img src="#{resource['paisesImages:'.concat(cotacao.moedaBase.pais.imagem)]}"
+                       alt="#{cotacao.moedaBase.pais.nome}"/>
+
+                <span>#{cotacao.moedaBase.codigo}</span>
+
+            </div>
+
+            </f:facet>
+
+            <h2>#{cotacao.moedaBase.name}</h2>
+
+        <p> Código: #{cotacao.moedaBase.codigo}</p>
+
+        <h1>
+            R$ <h:outputText value="#{cotacao.taxa}">
+
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR"/>
+
+            </h:outputText>
+
+        </h1>
+
+        <p>Data: #{cotacao.data} </p>
+
+        </p:panel>
+    </div>
+</ui:repeat>
+
+    </div>
+
+
+
+
+
+
+
+</h:body>
+
+</html>

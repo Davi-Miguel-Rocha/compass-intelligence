@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <style>
+
+        .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 45px;
+        padding: 20px;
+        border-radius: 15px;
+
+    }
+
+            body {
+        margin: 0;
+
+        background-image:
+            linear-gradient(
+                rgba(10, 20, 40, 0.75),
+                rgba(10, 20, 40, 0.75)
+            ),
+            url("#{resource['images/cidad.jpg']}");
+
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+    </style>
+
+    <h:outputStylesheet library="css" name="style.css"/>
+
+
+</h:head>
+
+<h:body>
+
+    <p:menubar>
+        <p:menuitem value="Início" icon="pi pi-home" outcome="inicio"/>
+        <p:menuitem value="Monitoramento" icon="pi pi-chart-bar" outcome="/pages/monitoramento"/>
+        <p:menuitem value="Conversão" icon="pi pi-wallet" outcome="/pages/convercao"/>
+        <p:menuitem value="Turismo" icon="pi pi-map-marker" outcome="/pages/turismo"/>
+    </p:menubar>
+
+
+    <p:card class="conversion-panel">
+
+        <f:facet name="header">
+            <h:outputText value="Conversão"/>
+        </f:facet>
+
+        <p:inputNumber
+                value="#{conversaoBean.valor}"
+                placeholder="Digite o valor"/>
+
+        <p:selectOneMenu
+                value="#{conversaoBean.moedaOrigem}">
+
+            <f:selectItems
+                    value="#{conversaoBean.moedas}"
+                    var="moeda"
+                    itemLabel="#{moeda.codigo}"
+                    itemValue="#{moeda}"/>
+
+        </p:selectOneMenu>
+
+        <p:selectOneMenu
+                value="#{conversaoBean.moedaDestino}">
+
+            <f:selectItems
+                    value="#{conversaoBean.moedas}"
+                    var="moeda"
+                    itemLabel="#{moeda.codigo}"
+                    itemValue="#{moeda}"/>
+
+        </p:selectOneMenu>
+
+    </p:card>
+
+
+
+</h:body>
+
+</html>
