@@ -232,7 +232,7 @@ A construção prioriza a separação de responsabilidades, integração com ser
 
 <img width="1907" height="857" alt="image" src="https://github.com/user-attachments/assets/358fb8b9-ed79-4138-a537-c8db80eac2e0" />
 ---
-<img width="1900" height="1027" alt="image" src="https://github.com/user-attachments/assets/dc290868-e3d9-48fb-8eed-60e52ac60206" />
+<img width="1902" height="1022" alt="image" src="https://github.com/user-attachments/assets/d8dcc6c8-9597-44eb-bea1-f8542ba36eed" />
 ---
 <img width="1682" height="912" alt="image" src="https://github.com/user-attachments/assets/2b7d148c-9716-466d-bd1d-28b373a20a15" />
 
