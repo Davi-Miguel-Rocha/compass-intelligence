@@ -228,7 +228,7 @@ A construção prioriza a separação de responsabilidades, integração com ser
 
 **Projeto em desenvolvimento.**
 
-**Projeto em funcionamento**
+## Projeto em funcionamento
 
 <img width="1907" height="857" alt="image" src="https://github.com/user-attachments/assets/358fb8b9-ed79-4138-a537-c8db80eac2e0" />
 ---
