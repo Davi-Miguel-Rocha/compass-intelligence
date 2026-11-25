@@ -7,11 +7,11 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import modelo.Moeda;
-import pais.PaisEnum;
 import service.ConversaoService;
+import service.MoedaService;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Named("conversaoBean")
@@ -31,30 +31,17 @@ public class ConversaoBean implements Serializable {
     @Inject
     private ConversaoService conversaoService;
 
+    @Inject
+    private MoedaService moedaService;
+
+
     @PostConstruct
-    public void init(){
-
-       moedas = new ArrayList<Moeda>();
-
-       moedas.add(new Moeda("Dólar americano","USD", 1L, PaisEnum.ESTADOS_UNIDOS));
-
-       moedas.add(new Moeda("Euro","EUR",2L,PaisEnum.UNIAO_EUROPEIA));
-
-        moedas.add(new Moeda("Yuan","CNY", 3L, PaisEnum.CHINA));
-
-        moedas.add(new Moeda("Dólar canadense","CAD", 4L, PaisEnum.CANADA));
-
-        moedas.add(new Moeda("Won sul-coreano", "KRW", 5L, PaisEnum.COREIA_SUL));
-
-
-
-    }
+    public void init(){ moedas =  moedaService.listarMoedas(); }
 
 
     public void converter() {
 
 
-        System.out.println("Bateu no método!!!");
 
         if (valor == null || moedaOrigem == null || moedaDestino == null) {
             FacesContext.getCurrentInstance().addMessage(null,

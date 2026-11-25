@@ -18,6 +18,7 @@
 
     letter-spacing: -1px;
 
+
 }
 
 .brand-subtitle {
@@ -27,6 +28,7 @@
     font-size: 22px;
 
     margin-top: 15px;
+    color: #ffffff;
 
 }
 
@@ -40,6 +42,8 @@
 
     margin-top: 20px;
 
+
+
 }
 
 .monitoramento-container {
@@ -48,6 +52,8 @@
          margin:40px auto 50px auto;
          text-align:center;
          gap: 25px;
+         color: #ffffff;
+
 }
 .currency-container {
     display: flex;
@@ -69,7 +75,6 @@
     transition: .3s;
 }
 
-"""CSS dos headers de monitoramento"""
 
 .currency-header {
     display: flex;
