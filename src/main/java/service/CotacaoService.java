@@ -1,3 +1,4 @@
+
 package service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,68 +15,126 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-
 @Named
 @ApplicationScoped
-public class CotacaoService{
+public class CotacaoService {
 
     private final HttpClient client;
     private final ObjectMapper mapper;
 
+    public CotacaoService() {
+        this.client = HttpClient.newBuilder()
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .build();
 
-   public CotacaoService(){
+        this.mapper = new ObjectMapper();
+        this.mapper.registerModule(new JavaTimeModule());
+    }
 
-       this.client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL)
-               .build();
+    // Consulta genérica: qualquer moeda de origem e destino
+    public String buscarCotacao(Moeda moedaBase, Moeda moedaDestino)
+            throws IOException, InterruptedException {
 
-       this.mapper = new ObjectMapper();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(
+                        "https://api.frankfurter.app/latest?from="
+                                + moedaBase.getCodigo()
+                                + "&to="
+                                + moedaDestino.getCodigo()))
+                .GET()
+                .build();
 
-       this.mapper.registerModule(new JavaTimeModule());
-   }
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
 
+        if (response.statusCode() != 200) {
+            throw new IOException(
+                    "Erro na API Frankfurter. Status HTTP: "
+                            + response.statusCode()
+            );
+        }
 
-   public String buscarCotacao(Moeda moeda) throws Exception{
+        return response.body();
+    }
 
-       HttpRequest request= HttpRequest.newBuilder()
-               .uri(URI.create("https://api.frankfurter.app/latest?from="+ moeda.getCodigo() + "&to=BRL"))
-               .GET()
-               .build();
+    // Mantém a compatibilidade com consultas direcionadas ao BRL
+    public String buscarCotacao(Moeda moeda)
+            throws IOException, InterruptedException {
 
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(
+                        "https://api.frankfurter.app/latest?from="
+                                + moeda.getCodigo()
+                                + "&to=BRL"))
+                .GET()
+                .build();
 
-       HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
 
-       if(response.statusCode() != 200){
+        if (response.statusCode() != 200) {
+            throw new IOException(
+                    "Erro na API Frankfurter. Status HTTP: "
+                            + response.statusCode()
+            );
+        }
 
-           throw new RuntimeException("Erro na API!");
-       }
+        return response.body();
+    }
 
-       return response.body();
-   }
+    // Mantém a assinatura utilizada pelo ConversaoService
+    public String buscarCotacaoConversao(
+            Moeda moedaOrigem,
+            Moeda moedaDestino
+    ) throws IOException, InterruptedException {
 
-   public String buscarCotacaoConversao(Moeda moedaOrigem, Moeda moedaDestino) throws IOException, InterruptedException {
+        return buscarCotacao(moedaOrigem, moedaDestino);
+    }
 
-       HttpRequest request = HttpRequest.newBuilder()
-               .uri(URI.create("https://api.frankfurter.app/latest?from=" +
-                       moedaOrigem.getCodigo() + "&to=" + moedaDestino.getCodigo())).GET().build();
+    public RespostaCotacao buscarCotacaoObjeto(Moeda moeda)
+            throws Exception {
 
-       HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String json = buscarCotacao(moeda);
 
-       return response.body();
-   }
+        return mapper.readValue(json, RespostaCotacao.class);
+    }
 
+    // Nova versão: permite informar origem e destino.
+    // se você quiser converter dolar para euro será o preço do dolar frente ao euro.
 
-   public RespostaCotacao buscarCotacaoObjeto(Moeda moeda) throws Exception{
+    public Cotacao buscarCotacaoAtual(
+            Moeda moedaBase,
+            Moeda moedaDestino
+    ) throws Exception {
 
-       String json = buscarCotacao(moeda);
+        String json = buscarCotacao(moedaBase, moedaDestino);
 
-       return mapper.readValue(json, RespostaCotacao.class);
-   }
+        RespostaCotacao resposta =
+                mapper.readValue(json, RespostaCotacao.class);
 
+        return new Cotacao(
+                moedaBase,
+                moedaDestino,
+                resposta.getRates().get(moedaDestino.getCodigo()),
+                resposta.getDate()
+        );
+    }
 
-   public Cotacao buscarCotacaoAtual(Moeda moeda) throws Exception{
+    // Método antigo preservado temporariamente devido a receios meus de quebrar algo.
+    public Cotacao buscarCotacaoAtual(Moeda moeda)
+            throws Exception {
 
-       RespostaCotacao cotacaoAtual = buscarCotacaoObjeto(moeda);
+        RespostaCotacao cotacaoAtual = buscarCotacaoObjeto(moeda);
 
-       return new Cotacao(moeda, null, cotacaoAtual.getRates().get("BRL"), cotacaoAtual.getDate());
-   }
+        return new Cotacao(
+                moeda,
+                null,
+                cotacaoAtual.getRates().get("BRL"),
+                cotacaoAtual.getDate()
+        );
+    }
 }
