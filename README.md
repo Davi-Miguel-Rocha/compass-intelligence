@@ -197,8 +197,8 @@ O Compass Intelligence está em desenvolvimento e possui uma evolução planejad
 - [x] Integração inicial com API de câmbio.
 - [x] Implementação inicial da tela de monitoramento.
 - [x] Estrutura inicial do conversor de moedas.
-- [ ] Integração das moedas do monitoramento com os menus de conversão.
-- [ ] Finalização e validação da conversão monetária.
+- [x] Integração das moedas do monitoramento com os menus de conversão.
+- [x] Finalização e validação da conversão monetária.
 - [ ] Evolução da interface de turismo.
 - [ ] Persistência de dados em banco de dados.
 - [ ] Implementação de recursos inteligentes para planejamento de viagens.
