@@ -44,6 +44,11 @@ public class CotacaoService{
 
        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+       if(response.statusCode() != 200){
+
+           throw new RuntimeException("Erro na API!");
+       }
+
        return response.body();
    }
 
