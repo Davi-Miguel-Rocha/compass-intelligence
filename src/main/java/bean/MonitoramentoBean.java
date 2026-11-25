@@ -32,11 +32,21 @@ public class MonitoramentoBean implements Serializable {
 
         List<Moeda> moedas = moedaService.listarMoedas();
 
-        for(Moeda moeda : moedas){
+        Moeda dolar = moedas.stream()
+                .filter(m -> m.getCodigo().equals("USD"))
+                .findFirst()
+                .orElseThrow();
 
-            cotacoes.add(cotacaoService.buscarCotacaoAtual(moeda));
+        for (Moeda moeda : moedas) {
+
+            if (moeda.getCodigo().equals("USD")) {
+                continue;
+            }
+
+            cotacoes.add(
+                    cotacaoService.buscarCotacaoAtual(moeda, dolar)
+            );
         }
-
     }
 
     public List<Cotacao> getCotacoes() {

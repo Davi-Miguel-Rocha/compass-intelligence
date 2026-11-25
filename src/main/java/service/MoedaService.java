@@ -26,6 +26,10 @@ public class MoedaService {
 
         moedas.add(new Moeda("Won sul-coreano", "KRW", 5L, PaisEnum.COREIA_SUL));
 
+        moedas.add(new Moeda("Real Brasileiro", "BRL", 6L, PaisEnum.BRASIL));
+
+        moedas.add(new Moeda("Iene japonês", "JPY", 7L, PaisEnum.JAPAN));
+
         return moedas;
 
     }

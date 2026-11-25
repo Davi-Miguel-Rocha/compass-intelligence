@@ -6,8 +6,12 @@ public enum PaisEnum {
     UNIAO_EUROPEIA("EUR", "União europeia", "EUR.png"),
     CHINA("CNY","China","china.png"),
     CANADA("CAD","Canadá","canada.jpg"),
-    COREIA_SUL("KRW","Won sul-coreano","coreiaSul.png");
-   private final String codigoMoeda;
+    COREIA_SUL("KRW","Won sul-coreano","coreiaSul.png"),
+    BRASIL("BRL","Real","brasil.png"),
+    JAPAN("JPY","Iene japonês","japao.png");
+
+
+    private final String codigoMoeda;
 
    private final String nome;
 
